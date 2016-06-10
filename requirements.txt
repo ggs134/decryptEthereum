@@ -1,0 +1,7 @@
+pip (8.1.2)
+pycrypto (2.6.1)
+pycryptodome (3.4)
+pysha3 (0.3)
+scrypt (0.7.1)
+setuptools (21.2.0)
+wheel (0.29.0)
