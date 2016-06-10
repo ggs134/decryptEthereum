@@ -14,8 +14,8 @@ class CPUDecrypter:
         self._params = self._get_params()
         self._scrypt_value = self._scrypt_hash(password, *self._params)
         self._cipher_hex = self._decode_hex(self._enc_file.ciphertext)
-        self.file_mac = self._decode_hex(self._encrypted_fileds.mac)
-        self.enc_key = self._enKey()
+        self.file_mac = self._decode_hex(self._enc_file.mac)
+        self.enc_key = self._encKey()
         self.calculated_mac = self._sha3(self.enc_key)
 
     def compare(mac1, mac2):
@@ -25,7 +25,7 @@ class CPUDecrypter:
             return False
 
     def _get_params(self):
-        return [self._enc_file.salt, self._enc_file.n_value, self._enc_file.r_value, self.enc_file.p_value, self.enc_file.dk_len]
+        return [self._enc_file.salt, self._enc_file.n_value, self._enc_file.r_value, self._enc_file.p_value, self._enc_file.dk_len]
 
     def _loadFile(self, filepath):
         return EncryptedFile.EncryptedFile(filepath)
@@ -38,7 +38,7 @@ class CPUDecrypter:
     def _scrypt_hash(self, val, salt, n, r, p, dklen):
         return scrypt.hash(str(val), self._decode_hex(salt), n, r, p, dklen)
 
-    def _enckey(self):
+    def _encKey(self):
         return self._scrypt_value[16:32] + self._cipher_hex
 
     def _sha3(self, seed):
@@ -53,5 +53,5 @@ if __name__ == "__main__":
     cpu_obj = CPUDecrypter(filepath, password)
 
     keys = cpu_obj.__dict__.keys()
-    for i  in keys:
-        print i
+    for i in keys:
+        print i, getattr(cpu_obj, i) 

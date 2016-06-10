@@ -1,12 +1,6 @@
-static void blkcpy(void *, void *, size_t);
-static void blkxor(void *, void *, size_t);
-static void salsa20_8(uint32_t[16]);
-static void blockmix_salsa8(uint32_t *, uint32_t *, uint32_t *, size_t);
-static uint64_t integerify(void *, size_t);
-static void smix(uint8_t *, size_t, uint64_t, uint32_t *, uint32_t *);
 
-static void
-blkcpy(void * dest, void * src, size_t len)
+
+void blkcpy(void * dest, void * src, size_t len)
 {
 	size_t * D = dest;
 	size_t * S = src;
@@ -17,8 +11,7 @@ blkcpy(void * dest, void * src, size_t len)
 		D[i] = S[i];
 }
 
-static void
-blkxor(void * dest, void * src, size_t len)
+void blkxor(void * dest, void * src, size_t len)
 {
 	size_t * D = dest;
 	size_t * S = src;
@@ -30,8 +23,7 @@ blkxor(void * dest, void * src, size_t len)
 }
 
 
-static void
-salsa20_8(uint32_t B[16])
+void salsa20_8(uint32_t B[16])
 {
 	uint32_t x[16];
 	size_t i;
@@ -71,8 +63,7 @@ salsa20_8(uint32_t B[16])
 }
 
 
-static void
-blockmix_salsa8(uint32_t * Bin, uint32_t * Bout, uint32_t * X, size_t r)
+void blockmix_salsa8(uint32_t * Bin, uint32_t * Bout, uint32_t * X, size_t r)
 {
 	size_t i;
 
@@ -100,8 +91,7 @@ blockmix_salsa8(uint32_t * Bin, uint32_t * Bout, uint32_t * X, size_t r)
 }
 
 
-static uint64_t
-integerify(void * B, size_t r)
+uint64_t integerify(void * B, size_t r)
 {
 	uint32_t * X = (void *)((uintptr_t)(B)+(2 * r - 1) * 64);
 
@@ -109,8 +99,7 @@ integerify(void * B, size_t r)
 }
 
 
-static void
-smix(uint32_t * B, size_t r, uint64_t N, uint32_t * V, uint32_t * XY)
+void smix(uint32_t * B, size_t r, uint64_t N, uint32_t * V, uint32_t * XY)
 {
 	uint32_t * X = XY;
 	uint32_t * Y = &XY[32 * r];
@@ -161,8 +150,7 @@ smix(uint32_t * B, size_t r, uint64_t N, uint32_t * V, uint32_t * XY)
 }
 
 
-static void
-crypto_scrypt(uint32_t *pbkdf_result, uint32_t *result)
+void crypto_scrypt(uint32_t *pbkdf_result, uint32_t *result)
 {
 
 	uint32_t p = 1;
@@ -176,5 +164,11 @@ crypto_scrypt(uint32_t *pbkdf_result, uint32_t *result)
 	for (i = 0; i < 1024; i += 4)
 		B[i / 4] = (&pbkdf_result[i + 3] << 24) | (&pbkdf_result[i + 2] << 16) | (&pbkdf_result[i + 1] << 8) | &pbkdf_result[i])
 		smix(&B[128 * r], r, N, V, XY);
+
+}
+
+int main(){
+
+	unit32_t
 
 }
